@@ -20,3 +20,9 @@ https://raspberrypi.stackexchange.com/questions/80072/how-can-i-use-an-external-
 # RTC For Pi
 
 https://www.amazon.com/gp/product/B072DWKDW9
+
+Needs CR1220 coin cell
+
+Setup:
+
+https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/set-up-and-test-i2c
