@@ -9,6 +9,12 @@ https://www.amazon.com/dp/B071WC4SXP
 
 Hacked USB cable for the 4-pin USB connector on the back of the display.
 
+USB wire colors:
+* RED: 5V
+* Bare: GND
+* White: D-
+* Greent: D+
+
 # USB Sound Bar
 
 https://www.amazon.com/dp/B07VJ3L588
