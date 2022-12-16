@@ -1,0 +1,24 @@
+<html>
+    <body>
+
+        <p style="margin-top: 150px"></p>
+
+        <p>This is the Anne-clock "Hello World" web page.</p>         
+        <p>Oh! You want the time ...</p>
+        <h1>The time is: RIGHT NOW!!</h1>
+                
+        <script>
+            
+            var ws = new WebSocket("ws://192.168.1.171:8080/ws")
+
+            ws.onopen = function() {                
+                ws.send("test message for server")
+            }
+
+            ws.onmessage = function(evt) {
+                alert("got back:"+evt.data)
+            }
+
+        </script>
+    </body>
+</html>
