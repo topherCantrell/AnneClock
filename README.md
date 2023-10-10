@@ -1,63 +1,62 @@
 # anne-clock
-The awesome Anne Clock
-
-![](art/frame.jpg)
-
-![](art/early.jpg)
-
-![](art/IMG-1772.jpg)
-
-![](art/IMG-1773.jpg)
 
 # The Display
 
-https://www.amazon.com/dp/B08KXXKPW9
+https://www.uperfectmonitor.com/products/raspberry-pi-case-with-screen
 
-https://www.amazon.com/dp/B071WC4SXP
+RPi fits inside. 10.1 inch HDMI with sound. 1280x800 pixels.
 
-Hacked USB cable for the 4-pin USB connector on the back of the display.
+The touch screen works right out of the box. No configuration to do.
 
-USB wire colors:
-* RED: 5V
-* Bare: GND
-* White: D-
-* Greent: D+
+# Audio
 
-# USB Sound Bar
+I disabled the onboard headphone jack so that the HDMI output was the only option.
 
-https://www.amazon.com/dp/B07VJ3L588
-
-Here is how to disable the pi onboard audio and activate the external USB sound card:
-
-https://raspberrypi.stackexchange.com/questions/80072/how-can-i-use-an-external-usb-sound-card-and-set-it-as-default
-
-# RTC For Pi
-
-https://www.amazon.com/gp/product/B072DWKDW9
-
-Needs CR1220 coin cell
-
-Setup:
-
-https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/set-up-and-test-i2c
-
-# Chrome Kiosk
-
-https://www.raspberrypi.com/tutorials/how-to-use-a-raspberry-pi-in-kiosk-mode/
+https://www.instructables.com/Disable-the-Built-in-Sound-Card-of-Raspberry-Pi/
 
 ```
-sudo apt update
-sudo apt full-upgrade
-sudo reboot
-
-sudo raspi-config
+cd /etc/modprobe.d
+vi alsa-blacklist.conf # This is creating the file
 ```
 
-Set boot to GUI, auto-login pi (already what mine has)
+```
+blacklist snd_bcm2835
+```
+
+And reboot.
+
+# Auto-starting the Python Server
+
+Note the "sudo" here; the server runs as root.
 
 ```
-sudo nano /home/pi/kiosk.sh
+sudo python3 -m pip install aiohttp
 ```
+
+Drop the `anneclock` directory in the pi home directory.
+
+Create `ONBOOT.sh` with the following:
+
+```
+#!/bin/bash
+rm -rf /home/pi/.cache/chromium
+cd /home/pi/anneclock
+python3 server.py
+```
+
+Don't forget `chmod +x ONBOOT.sh`.
+
+# Chromium Kiosk
+
+Install unclutter to hide the mouse pointer:
+
+```
+sudo apt install unclutter
+```
+
+Use `sudo raspi-config` to configure boot to GUI and auto log in, and configure the display to "non blanking".
+
+In the pi home directory, create `kiosk.sh` and make it executable:
 
 ```
 #!/bin/bash
@@ -71,17 +70,16 @@ unclutter -idle 0.5 -root &
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' /home/pi/.config/chromium/Default/Preferences
 sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' /home/pi/.config/chromium/Default/Preferences
 
-/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk https://www.raspberrypi.com/ https://time.is/London &
-
-while true; do
-   xdotool keydown ctrl+Tab; xdotool keyup ctrl+Tab;
-   sleep 10
-done
+/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk --autoplay-policy=no-user-gesture-required http://localhost:8080/index.html
 ```
 
+Create the systemd service file:
+
 ```
-sudo nano /lib/systemd/system/kiosk.service
+sudo vi /lib/systemd/system/kiosk.service
 ```
+
+With this content:
 
 ```
 [Unit]
@@ -102,91 +100,36 @@ Group=pi
 WantedBy=graphical.target
 ```
 
+Enable the service:
+
 ```
 sudo systemctl enable kiosk.service
-sudo reboot
 ```
 
-![](art/kiosk.jpg)
+Reboot or use `sudo systemctl start kiosk.service` to start (`stop` to stop).
 
-# Web Server
-
-I want a websocket open between the GUI and the server for communication -- no ajax.
-
-```
-pip install aiohttp
-```
-
-```
-- Add this line to /etc/rc.local (before the exit 0):
--   /home/pi/ONBOOT.sh 2> /home/pi/ONBOOT.errors > /home/pi/ONBOOT.stdout &
-- Add the following ONBOOT.sh script to /home/pi and make it executable:
-  
-#!/bin/bash
-cd /home/pi/anneclock
-python3 server.py  
-```
-
-In the kiosk file, this is the URL:
-
-```
-/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk http://localhost:8080/index.html &
-```
-
-# Hello World
-
-server.py:
-```python
-import aiohttp
-import aiohttp.web
-
-async def websocket_handler(request):    
-    ws = aiohttp.web.WebSocketResponse()
-    await ws.prepare(request)
-
-    async for msg in ws:       
-        print(msg.data)
-        # TODO handle the message here.
-        # TODO for now, just returning upper case
-        print(msg.data.upper())
-        await ws.send_str(msg.data.upper())
-
-    return ws
-
-app = aiohttp.web.Application()
-app.router.add_route('GET', '/ws', websocket_handler)
-app.router.add_static('/', path='webroot/', name='static')
-
-if __name__ == '__main__':
-    aiohttp.web.run_app(app)
-```
-
-index.html:
-```html
-<html>
-    <body>
-
-        <p style="margin-top: 150px"></p>
-
-        <p>This is the Anne-clock "Hello World" web page.</p>         
-        <p>Oh! You want the time ...</p>
-        <h1>The time is: RIGHT NOW!!</h1>
-
-        <script>
-            
-            var ws = new WebSocket("ws://localhost:8080/ws")
-
-            ws.onopen = function() {                
-                ws.send("test message for server")
-            }
-
-            ws.onmessage = function(evt) {
-                alert("got back:"+evt.data)
-            }
-
-        </script>
-    </body>
-</html>
-```
-
-![](art/hello.jpg)
+# Configuration menu:
+  - Theme
+    - Trump
+    - Christmas
+  - Update
+    - check for updates (https://github.com/topherCantrell/anne-clock/anneclock/update.py)
+    - install
+  - LAN connection
+    - ssid
+    - password
+  - Sleep Mode
+    - When system wakes
+    - When system sleeps
+    - Manual wake
+    - Manual sleep
+  - Backgrounds
+    - Pick set (or one)
+    - When backgrounds change (hourly, etc)
+  - Videos
+    - Pick set (or none)
+    - When played (hourly, etc)
+    - Videos and audio scheduled same time -- video wins
+  - Audio
+    - Pick set (or none)
+    - When played (hourly, etc)
