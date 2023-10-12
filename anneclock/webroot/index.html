@@ -11,32 +11,76 @@
   <body onload="starting_up()">
 
     <div id="main" style="display:block" onclick="click_main(event)">
-
         <div id="bt_audio" class="main_buttons_hidden" style="left:0px;top:0px" onclick="bt_audio(event)">
             <span>Audio</span>
         </div>
-
         <div id="bt_video" class="main_buttons_hidden" style="left:1080px;top:0px" onclick="bt_video(event)">
             <span>Video</span>
         </div>
-
         <div id="bt_config" class="main_buttons_hidden" style="left:0px;top:700px" onclick="bt_config(event)">
             <span>Config</span>
-        </div>       
-
+        </div>
         <div id="bt_background" class="main_buttons_hidden" style="left:1080px;top:700px" onclick="bt_background(event)">
             <span>Background</span>
-        </div>        
-
+        </div>
     </div>
 
-    <div id="config" style="display:none">
+    <div id="config" style="display:none">             
         
-        <p>This is the Anne-clock "Hello World" web page.</p>         
-        <p>Oh! You want the time ...</p>
-        <h1>The time is: RIGHT NOW!!</h1>   
-        
-        <input style="font-size:28px" class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true" placeholder="Your Name" />        
+        <button id="bt_cfg_wifi" class="cfg_buttons cfg_tab_active" style="left:20px;top:20px" onclick="bt_cfg_tab('wifi')">WiFi</button>
+        <button id="bt_cfg_sleep" class="cfg_buttons" style="left:190px;top:20px" onclick="bt_cfg_tab('sleep')">Sleep</button>
+        <button id="bt_cfg_clock" class="cfg_buttons" style="left:360px;top:20px" onclick="bt_cfg_tab('clock')">Clock</button>
+        <button id="bt_cfg_actions" class="cfg_buttons" style="left:530px;top:20px" onclick="bt_cfg_tab('actions')">Actions</button>
+        <button id="bt_cfg_update" class="cfg_buttons" style="left:700px;top:20px" onclick="bt_cfg_tab('update')">Update</button>
+        <button class="cfg_buttons" style="left:1110px;top:20px" onclick="bt_cfg_done(event)">Done</button>
+
+        <div id="div_cfg_wifi" class="div_cfg">
+            <div class="div_cfg_label" style="left:60px;top:60px;width:300px">Status:</div>
+            <div class="div_cfg_value" style="left:400px;top:60px;color:red">Not Connected</div>
+            <div class="div_cfg_label" style="left:60px;top:160px;width:300px">SSID:</div>
+            <div class="div_cfg_value" style="left:400px;top:160px"><input style="font-size:60px" class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true" placeholder="Network Name" /></div>          
+            <div class="div_cfg_label" style="left:60px;top:260px;width:300px">Password:</div>
+            <div class="div_cfg_value" style="left:400px;top:260px"><input style="font-size:60px" class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true" placeholder="Password" /></div>
+            <button class="cfg_value_buttons" style="left:520px;top:420px" onclick="alert('here')">Connect</button>
+        </div>
+
+        <div id="div_cfg_sleep" class="div_cfg" style="display:none">       
+            <div class="div_cfg_label" style="left:60px;top:100px;width:300px">Wake at:</div>
+            <div class="div_cfg_value" style="left:400px;top:100px"><input style="font-size:60px;width:80px;text-align:center" class="js-kioskboard-input" data-kioskboard-type="numpad" data-kioskboard-placement="bottom" value="6"/></div>
+            <div class="div_cfg_label" style="left:500px;top:100px;width:20px">:</div>
+            <div class="div_cfg_value" style="left:540px;top:100px"><input style="font-size:60px;width:80px;text-align:center" class="js-kioskboard-input" data-kioskboard-type="numpad" data-kioskboard-placement="bottom" value="00"/></div>
+            <input type="radio" class="div_cfg_value" style="left:680px;top:104px;width:60px;height:60px" name="wake_am_pm" checked>
+            <div class="div_cfg_label" style="left:750px;top:100px;width:20px">AM</div>
+            <input type="radio" class="div_cfg_value" style="left:880px;top:104px;width:60px;height:60px" name="wake_am_pm">
+            <div class="div_cfg_label" style="left:950px;top:100px;width:20px">PM</div>
+            <div class="div_cfg_label" style="left:60px;top:260px;width:300px">Sleep at:</div>
+            <div class="div_cfg_value" style="left:400px;top:260px"><input style="font-size:60px;width:80px;text-align:center" class="js-kioskboard-input" data-kioskboard-type="numpad" data-kioskboard-placement="bottom" value="7"/></div>
+            <div class="div_cfg_label" style="left:500px;top:260px;width:20px">:</div>
+            <div class="div_cfg_value" style="left:540px;top:260px"><input style="font-size:60px;width:80px;text-align:center" class="js-kioskboard-input" data-kioskboard-type="numpad" data-kioskboard-placement="bottom" value="30"/></div>
+            <input type="radio" class="div_cfg_value" style="left:680px;top:264px;width:60px;height:60px" name="sleep_am_pm">
+            <div class="div_cfg_label" style="left:750px;top:260px;width:20px">AM</div>
+            <input type="radio" class="div_cfg_value" style="left:880px;top:264px;width:60px;height:60px" name="sleep_am_pm" checked>
+            <div class="div_cfg_label" style="left:950px;top:260px;width:20px">PM</div>
+            <button class="cfg_value_buttons" style="left:520px;top:420px" onclick="alert('here')">Apply</button>
+        </div>
+
+        <div id="div_cfg_clock" class="div_cfg" style="display:none">         
+            <div class="div_cfg_value" style="left:20px;top:100px;width:1240px;text-align:center">Pick Clock Faces</div>   
+            <div class="div_cfg_value" style="left:20px;top:300px;width:1240px;text-align:center">Coming Soon</div> 
+        </div>
+
+        <div id="div_cfg_actions" class="div_cfg" style="display:none">            
+            <div class="div_cfg_value" style="left:20px;top:100px;width:1240px;text-align:center">Configure Action Frequency</div>   
+            <div class="div_cfg_value" style="left:20px;top:300px;width:1240px;text-align:center">Coming Soon</div>
+        </div>
+
+        <div id="div_cfg_update" class="div_cfg" style="display:none">          
+            <div class="div_cfg_label" style="left:60px;top:100px;width:300px">Status:</div>
+            <div class="div_cfg_value" style="left:400px;top:100px;color:green">Up to date (version 1.0)</div>            
+            <button class="cfg_value_buttons" style="left:420px;top:240px;width:400px" onclick="alert('here')">Check for Update</button> 
+            <button class="cfg_value_buttons" style="left:420px;top:420px;width:400px" onclick="alert('here')">Apply Update</button> 
+        </div>
+
 
     </div>
 

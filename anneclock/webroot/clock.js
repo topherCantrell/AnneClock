@@ -55,7 +55,16 @@ function click_main(event) {
 
 function bt_config(event) {
     event.stopPropagation()
-    alert('CONFIG')
+    a = document.getElementById('main')
+    b = document.getElementById('config')
+    b.style.display = 'block'
+    a.style.display = 'none'
+}
+function bt_cfg_done(event) {
+    a = document.getElementById('config')
+    b = document.getElementById('main')
+    b.style.display = 'block'
+    a.style.display = 'none'
 }
 
 function bt_audio(event) {
@@ -90,18 +99,35 @@ function bt_background(event) {
     b.style.backgroundImage="url('backgrounds/back0"+(BACK_IMAGE_NUM+1)+".jpg')"
 }
 
+active_tab = 'wifi'
+function bt_cfg_tab(tab) {
+    a = document.getElementById('bt_cfg_'+tab)
+    a.classList.toggle('cfg_tab_active')
+    b = document.getElementById('div_cfg_'+tab)
+    b.style.display = 'block'
+    c = document.getElementById('bt_cfg_'+active_tab)
+    c.classList.toggle('cfg_tab_active')
+    d = document.getElementById('div_cfg_'+active_tab)
+    d.style.display = 'none'  
+    active_tab = tab
+    if(tab==update) {
+        // Check on the update.py version
+    }
+}
+
 function starting_up(event) {    
     bt_audio()
 }
 
-/*
+function send_message(msg) {
+    ws.send(JSON.stringify(msg))
+}
+
 var ws = new WebSocket("ws:/"+window.location.host+"/ws")
 
-ws.onopen = function() {                
-    ws.send("test message for server")
-}
+ws.onopen = function() {}
 
 ws.onmessage = function(evt) {
-    alert("got back:"+evt.data)
+    msg = JSON.parse(evt.data)
+    // alert("got back:"+msg['error'])
 }
-*/
