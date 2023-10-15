@@ -315,7 +315,9 @@ function updateDateTime() {
     day_number = date.getDate() // 1-31
     day_name = date.getDay() // 0-6 (0=Sunday)
     time_hour = date.getHours() // 0-23
+    time_hour_org = time_hour
     time_minute = date.getMinutes() // 0-59 (make this print 2 digits)
+    time_minute_org = time_minute
     is_pm = false
     if (time_hour>=12) {
         time_hour = time_hour - 12
@@ -327,9 +329,8 @@ function updateDateTime() {
     // to strings
     month = NAMES_MONTH[month]
     day_number = day_number.toString()
-    day_name = NAMES_WEEKDAY[day_name]        
-    time_hour = time_hour.toString()
-    time_minute_org = time_minute
+    day_name = NAMES_WEEKDAY[day_name]   
+    time_hour = time_hour.toString()    
     if(time_minute<10) {
         time_minute = "0"+time_minute.toString()
     } else {
@@ -351,13 +352,16 @@ function updateDateTime() {
         document.getElementById('digital_month').textContent = month
         document.getElementById('digital_date').textContent = day_number
         //
-        if((time_minute%10)==0) {
+        if((time_minute_org%10)==0) {
             // Every 10 minutes
             bt_background()
         }
-        if(time_minute==0) {
+        if(time_minute_org==0) {
             // On the hour
-            bt_audio()
+            if (time_hour_org>=7 && time_hour_org<=19) {
+                // TODO let the user define the sleep interval. For now between 7 and 7 inclusive
+                bt_audio()
+            }            
         }        
     }
 
