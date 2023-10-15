@@ -10,11 +10,22 @@
   </head>
   <body onload="starting_up()">
 
+    <div id="clock_digital_time" style="position:absolute;left:20px;top:20px;width:600px;height:150px">
+        <span id="digital_time" class="digital_time_time">12:35</span>
+        <span id="digital_am_pm" class="digital_time_am_pm">PM</span>  
+    </div>
+
+    <div id="clock_digital_date" style="position:absolute;left:600px;top:20px;width:600px;height:150px">
+        <span id="digital_day_of_week" class="digital_date_day">Tuesday</span>         
+        <span id="digital_month" class="digital_date_month">December</span>
+        <span id="digital_date" class="digital_date_number">31</span>
+    </div>
+
     <div id="main" style="display:block" onclick="click_main(event)">
         <div id="bt_audio" class="main_buttons_hidden" style="left:0px;top:0px" onclick="bt_audio(event)">
             <span>Audio</span>
         </div>
-        <div id="bt_video" class="main_buttons_hidden" style="left:1080px;top:0px" onclick="bt_video(event)">
+        <div id="bt_video" class="main_buttons_hidden" style="left:1080px;top:0px" >
             <span>Video</span>
         </div>
         <div id="bt_config" class="main_buttons_hidden" style="left:0px;top:700px" onclick="bt_config(event)">
@@ -36,12 +47,12 @@
 
         <div id="div_cfg_wifi" class="div_cfg">
             <div class="div_cfg_label" style="left:60px;top:60px;width:300px">Status:</div>
-            <div class="div_cfg_value" style="left:400px;top:60px;color:red">Not Connected</div>
+            <div class="div_cfg_value" style="left:400px;top:60px"><span id='cfg_wifi_status'>???</span></div>
             <div class="div_cfg_label" style="left:60px;top:160px;width:300px">SSID:</div>
-            <div class="div_cfg_value" style="left:400px;top:160px"><input style="font-size:60px" class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true" placeholder="Network Name" /></div>          
+            <div class="div_cfg_value" style="left:400px;top:160px"><input id='cfg_wifi_ssid' style="font-size:60px" class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true" placeholder="Network Name" value="???"/></div>          
             <div class="div_cfg_label" style="left:60px;top:260px;width:300px">Password:</div>
-            <div class="div_cfg_value" style="left:400px;top:260px"><input style="font-size:60px" class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true" placeholder="Password" /></div>
-            <button class="cfg_value_buttons" style="left:520px;top:420px" onclick="alert('here')">Connect</button>
+            <div class="div_cfg_value" style="left:400px;top:260px"><input id='cfg_wifi_psk' style="font-size:60px" class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true" placeholder="Password" value="???"/></div>
+            <button class="cfg_value_buttons" style="left:520px;top:420px" onclick="bt_cfg_connect()">Connect</button>
         </div>
 
         <div id="div_cfg_sleep" class="div_cfg" style="display:none">       
@@ -76,11 +87,10 @@
 
         <div id="div_cfg_update" class="div_cfg" style="display:none">          
             <div class="div_cfg_label" style="left:60px;top:100px;width:300px">Status:</div>
-            <div class="div_cfg_value" style="left:400px;top:100px;color:green">Up to date (version 1.0)</div>            
-            <button class="cfg_value_buttons" style="left:420px;top:240px;width:400px" onclick="alert('here')">Check for Update</button> 
-            <button class="cfg_value_buttons" style="left:420px;top:420px;width:400px" onclick="alert('here')">Apply Update</button> 
+            <div id="cfg_update_status" class="div_cfg_value" style="left:400px;top:100px">???</div>            
+            <button class="cfg_value_buttons" style="left:420px;top:240px;width:400px" onclick="bt_check_update()">Check for Update</button> 
+            <button class="cfg_value_buttons" style="left:420px;top:420px;width:400px" onclick="bt_run_update()">Apply Update</button> 
         </div>
-
 
     </div>
 
@@ -90,7 +100,7 @@
 
     <div id="network" style="display:none">
         <h1>NETWORK</h1>
-    </div>
+    </div>    
 
     <!-- https://furcan.github.io/KioskBoard/ -->
     <script src="dist/kioskboard-2.3.0.min.js"></script>        

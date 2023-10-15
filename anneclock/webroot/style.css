@@ -6,6 +6,53 @@ body {
     height:800px;    
 }
 
+.digital_date_day {
+    position: absolute;
+    left:40px;
+    top:0px;
+    width:300px;
+    font-weight:bold;
+    font-size:60px;
+    text-align:center;
+}
+
+.digital_date_month {
+    position: absolute;
+    left:40px;
+    top:75px;
+    width:300px;
+    font-weight:bold;
+    font-size:60px;
+    text-align:center;
+}
+
+.digital_date_number {
+    position:absolute;
+    left:400px;
+    top:-20px;
+    font-weight:bold;
+    font-size:160px;    
+}
+
+.digital_time_time {
+    position:absolute;    
+    width:400px;
+    text-align:right;
+    left:0px;
+    top:0px;
+    font-weight:
+    bold;
+    font-size:160px;
+}
+
+.digital_time_am_pm {
+    position:absolute;
+    left:450px;
+    top:40px;
+    font-weight:bold;
+    font-size:80px;
+}
+
 .div_cfg_label {
     position:absolute; 
     font-size: 60px;
