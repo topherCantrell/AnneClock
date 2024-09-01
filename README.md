@@ -16,7 +16,7 @@ https://www.instructables.com/Disable-the-Built-in-Sound-Card-of-Raspberry-Pi/
 
 ```
 cd /etc/modprobe.d
-vi alsa-blacklist.conf # This is creating the file
+vi sudo alsa-blacklist.conf # This is creating the file
 ```
 
 ```
@@ -27,7 +27,13 @@ And reboot.
 
 # Auto-starting the Python Server
 
-Note the "sudo" here; the server runs as root.
+Add this line to /etc/rc.local (before the exit 0):
+
+```
+/home/pi/ONBOOT.sh 2> /home/pi/ONBOOT.errors > /home/pi/ONBOOT.stdout &
+```
+
+Note the "sudo" here; the server runs as root:
 
 ```
 sudo python3 -m pip install aiohttp
@@ -51,6 +57,7 @@ Don't forget `chmod +x ONBOOT.sh`.
 Install unclutter to hide the mouse pointer:
 
 ```
+sudo apt install chromium
 sudo apt install unclutter
 ```
 
@@ -70,7 +77,7 @@ unclutter -idle 0.5 -root &
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' /home/pi/.config/chromium/Default/Preferences
 sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' /home/pi/.config/chromium/Default/Preferences
 
-/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk --autoplay-policy=no-user-gesture-required http://localhost:8080/index.html
+chromium --noerrdialogs --disable-infobars --kiosk --autoplay-policy=no-user-gesture-required http://localhost:8080/index.html
 ```
 
 Create the systemd service file:
@@ -95,9 +102,6 @@ ExecStart=/bin/bash /home/pi/kiosk.sh
 Restart=on-abort
 User=pi
 Group=pi
-
-[Install]
-WantedBy=graphical.target
 ```
 
 Enable the service:
