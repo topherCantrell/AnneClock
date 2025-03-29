@@ -1,135 +1,21 @@
 
+// Initialize the keyboard
+//
 KioskBoard.init({
     keysArrayOfObjects: null,
     keysJsonUrl: "dist/kioskboard-keys-english.json",
     capsLockActive: false,
 })
-
 KioskBoard.run('.js-kioskboard-input', {})
 
+// Main buttons are not visible
 main_buttons_shown = false
 
+// Waiting for the theme in the config info
+theme = ''
 
-BACK_IMAGES = [
-    {
-        'name':'back01.jpg',   
-        'digital_time': [450, 20],
-        'digital_date': [670, 600],       
-        'clock_color': '#cd1515',
-        'month_color': '#cd1515',
-        'day_of_week_color': '#cd1515',
-        'date_color':'#cd1515'
-    },
-    {
-        'name':'back02.jpg',  
-        'digital_time': [60, 20],
-        'digital_date': [670, 300],           
-        'clock_color': 'purple',
-        'month_color': 'purple',
-        'day_of_week_color': 'purple',
-        'date_color':'purple'      
-    },
-    {
-        'name':'back03.jpg',         
-        'digital_time': [80, 80],
-        'digital_date': [0, 600],          
-        'clock_color': 'whitesmoke',
-        'month_color': 'whitesmoke',
-        'day_of_week_color': 'whitesmoke',
-        'date_color':'whitesmoke'  
-    },
-    {
-        'name':'back04.jpg',  
-        'digital_time': [40, 40],
-        'digital_date': [10, 580],        
-        'clock_color': 'darkblue',
-        'month_color': 'darkblue',
-        'day_of_week_color': 'darkblue',
-        'date_color':'darkblue'      
-    },
-    {
-        'name':'back05.jpg',    
-        'digital_time': [20, 0],
-        'digital_date': [670, 580],        
-        'clock_color': 'whitesmoke',
-        'month_color': 'whitesmoke',
-        'day_of_week_color': 'whitesmoke',
-        'date_color':'whitesmoke'     
-    },
-    {
-        'name':'back06.jpg',                 
-        'digital_time': [20, 0],
-        'digital_date': [670, 600],                
-        'clock_color': 'purple',
-        'month_color': 'purple',
-        'day_of_week_color': 'purple',
-        'date_color':'purple'     
-    },    
-    {
-        'name':'back08.jpg',   
-        'digital_time': [20, 600],
-        'digital_date': [670, 600],    
-        'clock_color': 'blue',
-        'month_color': 'red',
-        'day_of_week_color': 'red',
-        'date_color':'red'      
-    },
-    {
-        'name':'back09.jpg',        
-        'digital_time': [600, 160],
-        'digital_date': [600, 500],        
-        'clock_color': 'whitesmoke',
-        'month_color': 'whitesmoke',
-        'day_of_week_color': 'whitesmoke',
-        'date_color':'whitesmoke'
-    },
-    {
-        'name':'back10.jpg',     
-        'digital_time': [660, 0],
-        'digital_date': [0, 600],       
-        'clock_color': 'whitesmoke',
-        'month_color': 'whitesmoke',
-        'day_of_week_color': 'whitesmoke',
-        'date_color':'whitesmoke'   
-    },
-    {
-        'name':'back11.jpg',        
-        'digital_time': [660, 450],
-        'digital_date': [660, 600],       
-        'clock_color': 'whitesmoke',
-        'month_color': 'whitesmoke',
-        'day_of_week_color': 'whitesmoke',
-        'date_color':'whitesmoke'   
-    },
-    {
-        'name':'back12.jpg',       
-        'digital_time': [0, 600],
-        'digital_date': [660, 600],        
-        'clock_color': '#c1233b',
-        'month_color': '#c1233b',
-        'day_of_week_color': '#c1233b',
-        'date_color':'#c1233b'    
-    },
-]
-BACK_IMAGE_NUM = -1
-
-AUDIO_CLIPS = [
-    'clip1.mp3',
-    'clip2.mp3',
-    'clip3.mp3',
-    'clip4.mp3',
-    'clip5.mp3',
-    'clip6.mp3',
-    'clip7.mp3',
-    'clip8.mp3',
-    'clip9.mp3',
-    'clip10.mp3',
-    'clip11.mp3',
-    'clip12.mp3',
-]
-AUDIO_CLIP_NUM = 11
-CUR_AUDIO = null
-
+// Clicked on the main screen -- not on a corner
+//
 function click_main(event) {
     a = document.getElementById('bt_config')
     b = document.getElementById('bt_video')
@@ -147,7 +33,9 @@ function click_main(event) {
     d.className = cn
 }
 
-function bt_config(event) {
+// Clicked on the CONFIGURE button
+//
+function bt_config(event) {    
     event.stopPropagation()
     a = document.getElementById('main')
     b = document.getElementById('config')
@@ -157,6 +45,7 @@ function bt_config(event) {
     b = document.getElementById('clock_digital_date')
     b.style.display = 'none'
     a.style.display = 'none'
+    updateDateTime()    
 }
 function bt_cfg_done(event) {
     a = document.getElementById('config')
@@ -167,6 +56,17 @@ function bt_cfg_done(event) {
     b = document.getElementById('clock_digital_date')
     b.style.display = 'block'
     a.style.display = 'block'
+}
+
+function bt_set_theme(event, new_theme) {
+    event.stopPropagation()
+    if(new_theme != theme) {
+        msg = {
+            'cmd': 'set_theme',
+            'theme': new_theme
+        }
+        send_message(msg)        
+    }
 }
 
 function bt_audio(event) {
@@ -181,7 +81,7 @@ function bt_audio(event) {
         CUR_AUDIO.pause()
         CUR_AUDIO.currentTime = 0
     }
-    CUR_AUDIO = new Audio('audio/'+AUDIO_CLIPS[AUDIO_CLIP_NUM])
+    CUR_AUDIO = new Audio(theme+'/audio/'+AUDIO_CLIPS[AUDIO_CLIP_NUM])
     CUR_AUDIO.volume = 1.0
     CUR_AUDIO.play()
 }
@@ -201,7 +101,7 @@ function bt_background(event) {
         BACK_IMAGE_NUM = 0
     }
     info = BACK_IMAGES[BACK_IMAGE_NUM]
-    a.style.backgroundImage="url('backgrounds/"+(BACK_IMAGES[BACK_IMAGE_NUM]['name'])
+    a.style.backgroundImage="url('"+theme+"/backgrounds/"+(BACK_IMAGES[BACK_IMAGE_NUM]['name'])
     a = document.getElementById('clock_digital_time')
     a.style.left = info['digital_time'][0].toString()+'px'
     a.style.top = info['digital_time'][1].toString()+'px'
@@ -232,26 +132,20 @@ function bt_cfg_tab(tab) {
     c.classList.toggle('cfg_tab_active')
     d = document.getElementById('div_cfg_'+active_tab)
     d.style.display = 'none'  
-    active_tab = tab
-    if(tab==update) {
-        // Check on the update.py version
-    }
-}
-
-function starting_up(event) {    
-    bt_audio()
+    active_tab = tab    
 }
 
 function send_message(msg) {
     ws.send(JSON.stringify(msg))
 }
 
-bt_background()
+// We load these from the user's theme
+BACK_IMAGE_NUM = -1
+AUDIO_CLIP_NUM = -1
+CUR_AUDIO = null       
 
 var ws = new WebSocket("ws:/"+window.location.host+"/ws")
-
 ws.onopen = function() {}
-
 ws.onmessage = function(evt) {
     msg = JSON.parse(evt.data)
     if (msg['cmd'] == 'CONFIG_INFO') {      
@@ -271,6 +165,19 @@ ws.onmessage = function(evt) {
             c.textContent = '--unknown--'
             c.style.color = 'red'
         }
+        window.setInterval(updateDateTime, 1000*10)         
+        theme = msg['user_config']['theme']
+        fetch('./'+theme+'/mediaInfo.json')
+        .then(response => response.json())
+        .then(data => {
+            BACK_IMAGES = data['backgrounds']
+            AUDIO_CLIPS = data['audio']
+            BACK_IMAGE_NUM = -1
+            AUDIO_CLIP_NUM = -1
+            CUR_AUDIO = null   
+            bt_background()
+            bt_audio()         
+        })        
     } else if (msg['cmd']=='latest_version') {
         a = document.getElementById('cfg_update_status')
         a.textContent = msg['info']
@@ -366,6 +273,3 @@ function updateDateTime() {
     }
 
 }
-
-updateDateTime()
-window.setInterval(updateDateTime, 1000*10);

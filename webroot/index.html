@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Trump Clock</title>
+    <title>Anne Clock</title>
     <link rel="stylesheet" href="style.css"/>
     <link rel="stylesheet" href="dist/kioskboard-2.3.0.min.css"/>
   </head>
-  <body onload="starting_up()">
+
+  <body>
 
     <div id="clock_digital_time" style="position:absolute;left:20px;top:20px;width:600px;height:150px">
         <span id="digital_time" class="digital_time_time">12:35</span>
@@ -42,7 +43,7 @@
         <button id="bt_cfg_sleep" class="cfg_buttons" style="left:190px;top:20px" onclick="bt_cfg_tab('sleep')">Sleep</button>
         <button id="bt_cfg_clock" class="cfg_buttons" style="left:360px;top:20px" onclick="bt_cfg_tab('clock')">Clock</button>
         <button id="bt_cfg_actions" class="cfg_buttons" style="left:530px;top:20px" onclick="bt_cfg_tab('actions')">Actions</button>
-        <button id="bt_cfg_update" class="cfg_buttons" style="left:700px;top:20px" onclick="bt_cfg_tab('update')">Update</button>
+        <button id="bt_cfg_theme" class="cfg_buttons" style="left:700px;top:20px" onclick="bt_cfg_tab('theme')">Theme</button>
         <button class="cfg_buttons" style="left:1110px;top:20px" onclick="bt_cfg_done(event)">Done</button>
 
         <div id="div_cfg_wifi" class="div_cfg">
@@ -83,13 +84,11 @@
         <div id="div_cfg_actions" class="div_cfg" style="display:none">            
             <div class="div_cfg_value" style="left:20px;top:100px;width:1240px;text-align:center">Configure Action Frequency</div>   
             <div class="div_cfg_value" style="left:20px;top:300px;width:1240px;text-align:center">Coming Soon</div>
-        </div>
+        </div>        
 
-        <div id="div_cfg_update" class="div_cfg" style="display:none">          
-            <div class="div_cfg_label" style="left:60px;top:100px;width:300px">Status:</div>
-            <div id="cfg_update_status" class="div_cfg_value" style="left:400px;top:100px">???</div>            
-            <button class="cfg_value_buttons" style="left:420px;top:240px;width:400px" onclick="bt_check_update()">Check for Update</button> 
-            <button class="cfg_value_buttons" style="left:420px;top:420px;width:400px" onclick="bt_run_update()">Apply Update</button> 
+        <div id="div_cfg_theme" class="div_cfg" style="display:none">                      
+            <button class="cfg_value_buttons" style="left:420px;top:240px;width:400px" onclick="bt_set_theme(event, 'themeCats')">Apply the Cats theme</button> 
+            <button class="cfg_value_buttons" style="left:420px;top:420px;width:400px" onclick="bt_set_theme(event, 'themeTrump')">Apply the Trump theme</button>
         </div>
 
     </div>

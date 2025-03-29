@@ -9,27 +9,8 @@ import subprocess
 CONFIG_INFO = {
     "ssid": None,
     "psk": None,
-    "net_connected": None,
-    "software_version": "1.0", # Fixed here in the source
-    "latest_version": None,
+    "net_connected": None,    
 }
-
-async def cmd_check_update(ws, message):
-    latest_version = _check_upgrade()
-    print('>>>',latest_version)
-    msg = {
-        'cmd': 'latest_version',        
-    }    
-    if latest_version == CONFIG_INFO['software_version']:
-        msg['info'] = f'Up to date (version {latest_version})'
-        msg['color'] = 'green'
-    else:
-        msg['info'] = f'New version {latest_version} available'
-        msg['color'] = 'orange'    
-    await ws.send_str(json.dumps(msg))    
-
-async def cmd_update(cmd, message):
-    _run_upgrade()
 
 async def cmd_set_network(cmd, message):
     print('>>>', cmd)
@@ -54,27 +35,7 @@ network={
     file_contents = file_contents.replace('%SSID%',ssid)
     file_contents = file_contents.replace('%PSK%',psk)
     with open('/etc/wpa_supplicant/wpa_supplicant.conf','w') as f:
-        f.write(file_contents)
-        
-
-def _check_upgrade():
-    try:
-        try:
-            os.system('rm /home/pi/update.py')
-        except Exception:
-            pass
-        os.system('wget https://raw.githubusercontent.com/topherCantrell/anneclock/main/anneclock/update.py -O /home/pi/update.py')
-        with open('/home/pi/update.py') as f:
-            lines = f.readlines()
-        latest_version = lines[0].strip()[2:]
-        return latest_version
-    except Exception:
-        return None
-    
-def _run_upgrade():
-    _check_upgrade()  # This downloads the file
-    os.system('python3 /home/pi/update.py')
-
+        f.write(file_contents)    
 
 def _get_network():
     try:
@@ -117,15 +78,24 @@ async def websocket_handler(request):
     async for msg in ws:            
         cmd_msg = json.loads(msg.data)        
         cmd = cmd_msg['cmd']        
-        if cmd=='run_update':
-            await cmd_update(cmd, cmd_msg)       
+        if cmd=='set_theme':
+            CONFIG_INFO['user_config']['theme'] = cmd_msg['theme']
+            save_user_config(CONFIG_INFO['user_config'])            
+            msg = dict(CONFIG_INFO)
+            msg['cmd'] = 'CONFIG_INFO'
+            await ws.send_str(json.dumps(msg))        
         elif cmd=='set_network':
-            await cmd_set_network(cmd, cmd_msg) 
-        elif cmd=='check_update':
-            await cmd_check_update(ws, cmd_msg)
+            await cmd_set_network(cmd, cmd_msg)         
         else:
            print('UNKNOWN COMMAND',cmd_msg)
     return ws
+
+def save_user_config(config):
+    try:
+        with open('/home/pi/userConfig.json', 'w') as f:
+            json.dump(config, f, indent=4)
+    except Exception as e:
+        print('Error saving user config:', str(e))
 
 """
 Requests are JSON with "cmd"
@@ -142,11 +112,25 @@ Responses are JSON with "error" only if something is wrong
 
 """
 
+try:    
+    with open('/home/pi/userConfig.json') as f:
+        USER_CONFIG = json.load(f)
+except FileNotFoundError:
+    # Probably first run
+    USER_CONFIG = {
+        'theme': 'themeTrump'
+    }
+    save_user_config(USER_CONFIG)
+
+with open('version.txt') as f:
+    lines = f.readlines()
+    CONFIG_INFO['software_version'] = lines[0].strip()
+
 wifi_info = _get_network()
 CONFIG_INFO['ssid'] = wifi_info[0]
 CONFIG_INFO['psk'] = wifi_info[1]
 CONFIG_INFO['net_connected'] = _is_network_connected()
-CONFIG_INFO['latest_version'] = _check_upgrade()
+CONFIG_INFO['user_config'] = USER_CONFIG
 
 print('>>> CONFIG_INFO')
 print(CONFIG_INFO)

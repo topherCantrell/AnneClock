@@ -1,0 +1,21 @@
+{
+
+    "start_with_back": 0,
+    "start_with_audio": 11,
+
+"backgrounds": [
+    {
+        "name":"back01.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    }
+],
+
+"audio": [
+    "clip1.mp3"    
+]
+}
