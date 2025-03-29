@@ -1,10 +1,14 @@
 # The Anne Clock
 
+TEST TEST TEST
+
 This project is a website designed for absolute positioning on the 10.1 inch display
 panel. The Pi runs the webserver and launches a browser (kiosk mode) to the site.
 
 ```
 http://localhost:8080/index.html
+
+git clone https://github.com/topherCantrell/AnneClock.git
 ```
 
 Upgrading the site is easy: update the git repo on the pi and restart.
