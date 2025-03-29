@@ -1,4 +1,13 @@
-# anne-clock
+# The Anne Clock
+
+This project is a website designed for absolute positioning on the 10.1 inch display
+panel. The Pi runs the webserver and launches a browser (kiosk mode) to the site.
+
+```
+http://localhost:8080/index.html
+```
+
+Upgrading the site is easy: update the git repo on the pi and restart.
 
 # The Display
 
@@ -16,7 +25,7 @@ https://www.instructables.com/Disable-the-Built-in-Sound-Card-of-Raspberry-Pi/
 
 ```
 cd /etc/modprobe.d
-vi sudo alsa-blacklist.conf # This is creating the file
+sudo vi alsa-blacklist.conf # This is creating the file
 ```
 
 ```
@@ -27,6 +36,20 @@ And reboot.
 
 # Auto-starting the Python Server
 
+Drop the `anneclock` directory in the pi home directory.
+
+Edit or create "/etc/rc.local". Here is the file if you have to create:
+
+```
+#!/bin/sh -e
+#
+# rc.local
+
+exit 0
+```
+
+You must `sudo chmod +x /etc/rc.local`
+
 Add this line to /etc/rc.local (before the exit 0):
 
 ```
@@ -36,10 +59,9 @@ Add this line to /etc/rc.local (before the exit 0):
 Note the "sudo" here; the server runs as root:
 
 ```
-sudo python3 -m pip install aiohttp
+# sudo python3 -m pip install aiohttp ; the old way no longer works
+sudo apt install python3-aiohttp
 ```
-
-Drop the `anneclock` directory in the pi home directory.
 
 Create `ONBOOT.sh` with the following:
 
@@ -51,6 +73,14 @@ python3 server.py
 ```
 
 Don't forget `chmod +x ONBOOT.sh`.
+
+For Bookworm I had to disable the mouse pointer completely:
+
+```
+sudo mv /usr/share/icons/PiXflat/cursors/left_ptr /usr/share/icons/PiXflat/cursors/left_ptr.bak
+```
+
+Unclutter doesn't work in bookworm. There are other ways besides getting rid of the pointer, but meh.
 
 # Chromium Kiosk
 
@@ -70,15 +100,16 @@ In the pi home directory, create `kiosk.sh` and make it executable:
 
 xset s noblank
 xset s off
-xset -dpms
 
 unclutter -idle 0.5 -root &
 
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' /home/pi/.config/chromium/Default/Preferences
 sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' /home/pi/.config/chromium/Default/Preferences
 
-chromium --noerrdialogs --disable-infobars --kiosk --autoplay-policy=no-user-gesture-required http://localhost:8080/index.html
+chromium --no-sandbox --noerrdialogs --disable-infobars --kiosk --autoplay-policy=no-user-gesture-required http://localhost:8080/index.html
 ```
+
+Don't forget: `chmod +x kiosk.sh`
 
 Create the systemd service file:
 
@@ -110,6 +141,8 @@ Enable the service:
 sudo systemctl enable kiosk.service
 ```
 
+I ignored a long spew message saying "The unit files have no ...".
+
 Reboot or use `sudo systemctl start kiosk.service` to start (`stop` to stop).
 
 # Configuration menu:
@@ -137,3 +170,5 @@ Reboot or use `sudo systemctl start kiosk.service` to start (`stop` to stop).
   - Audio
     - Pick set (or none)
     - When played (hourly, etc)
+
+option to close kiosk and return to desktop (for development)

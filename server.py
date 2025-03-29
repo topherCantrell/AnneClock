@@ -63,7 +63,7 @@ def _check_upgrade():
             os.system('rm /home/pi/update.py')
         except Exception:
             pass
-        os.system('wget https://raw.githubusercontent.com/topherCantrell/anne-clock/main/anneclock/update.py -O /home/pi/update.py')
+        os.system('wget https://raw.githubusercontent.com/topherCantrell/anneclock/main/anneclock/update.py -O /home/pi/update.py')
         with open('/home/pi/update.py') as f:
             lines = f.readlines()
         latest_version = lines[0].strip()[2:]
