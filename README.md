@@ -1,7 +1,5 @@
 # The Anne Clock
 
-TEST TEST TEST
-
 This project is a website designed for absolute positioning on the 10.1 inch display
 panel. The Pi runs the webserver and launches a browser (kiosk mode) to the site.
 
