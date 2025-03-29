@@ -9,6 +9,14 @@ http://localhost:8080/index.html
 git clone https://github.com/topherCantrell/AnneClock.git
 ```
 
+This creates `/home/pi/AnneClock`
+
+Then from within the repo:
+
+```
+git pull
+```
+
 Upgrading the site is easy: update the git repo on the pi and restart.
 
 # The Display
@@ -70,7 +78,7 @@ Create `ONBOOT.sh` with the following:
 ```
 #!/bin/bash
 rm -rf /home/pi/.cache/chromium
-cd /home/pi/anneclock
+cd /home/pi/AnneClock
 python3 server.py
 ```
 
