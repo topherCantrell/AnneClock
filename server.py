@@ -85,7 +85,7 @@ async def websocket_handler(request):
             msg['cmd'] = 'CONFIG_INFO'
             await ws.send_str(json.dumps(msg))        
         elif cmd=='set_network':
-            await cmd_set_network(cmd, cmd_msg)         
+            await cmd_set_network(cmd, cmd_msg)
         else:
            print('UNKNOWN COMMAND',cmd_msg)
     return ws
