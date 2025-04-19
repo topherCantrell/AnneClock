@@ -1,7 +1,7 @@
 {
 
     "start_with_back": 0,
-    "start_with_audio": 11,
+    "start_with_audio": 0,
 
 "backgrounds": [
     {
@@ -12,10 +12,135 @@
         "month_color": "#cd1515",
         "day_of_week_color": "#cd1515",
         "date_color":"#cd1515"
+    },
+    {
+        "name":"back02.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back03.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back04.jpg",   
+        "digital_time": [600, 80],
+        "digital_date": [670, 520],       
+        "clock_color": "#150c0b",
+        "month_color": "#371623",
+        "day_of_week_color": "#371623",
+        "date_color":"#371623"
+    },
+    {
+        "name":"back05.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back06.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back07.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back08.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back09.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back10.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back11.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back12.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back13.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
+    },
+    {
+        "name":"back14.jpg",   
+        "digital_time": [450, 20],
+        "digital_date": [670, 600],       
+        "clock_color": "#cd1515",
+        "month_color": "#cd1515",
+        "day_of_week_color": "#cd1515",
+        "date_color":"#cd1515"
     }
 ],
 
 "audio": [
-    "clip1.mp3"    
+    "clip01.mp3",
+    "clip02.mp3",
+    "clip03.mp3",
+    "clip04.mp3",
+    "clip05.mp3",
+    "clip06.mp3",
+    "clip07.mp3",
+    "clip08.mp3",
+    "clip09.mp3"
 ]
 }
