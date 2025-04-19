@@ -71,7 +71,6 @@ async def websocket_handler(request):
     ws = aiohttp.web.WebSocketResponse()
     await ws.prepare(request)
 
-    # Testing change
     msg = dict(CONFIG_INFO)
     msg['cmd'] = 'CONFIG_INFO'
     await ws.send_str(json.dumps(msg))    
