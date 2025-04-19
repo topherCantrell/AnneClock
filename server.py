@@ -5,12 +5,19 @@ import socket
 import os
 import time
 import subprocess
+import asyncio
 
 CONFIG_INFO = {
     "ssid": None,
     "psk": None,
     "net_connected": None,    
 }
+
+async def cmd_update(cmd, message):
+    result = subprocess.run(['git', 'pull'], stdout=subprocess.PIPE)
+    if 'Already up to date.' in result.stdout.decode():
+        return False
+    return True
 
 async def cmd_set_network(cmd, message):
     print('>>>', cmd)
@@ -86,6 +93,13 @@ async def websocket_handler(request):
             await ws.send_str(json.dumps(msg))        
         elif cmd=='set_network':
             await cmd_set_network(cmd, cmd_msg)
+        elif cmd=='update':
+            made = await cmd_update(cmd, cmd_msg)
+            resp = {"update_status": made}
+            await ws.send_str(json.dumps(resp))
+            if made:
+                await asyncio.sleep(5)
+                os.system('reboot')
         else:
            print('UNKNOWN COMMAND',cmd_msg)
     return ws

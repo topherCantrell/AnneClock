@@ -86,6 +86,14 @@ function bt_audio(event) {
     CUR_AUDIO.play()
 }
 
+function bt_update(event) {
+    event.stopPropagation()
+    msg = {
+        'cmd': 'update'
+    }
+    send_message(msg)
+}
+
 function bt_video(event) {
     event.stopPropagation()
     alert('VIDEO')
