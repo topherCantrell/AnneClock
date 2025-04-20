@@ -113,7 +113,7 @@
         "date_color":"#000078"
     },
     {
-        "name":"back13.jpg",   
+        "name":"back13b.jpg",   
         "digital_time": [550, 20],
         "digital_date": [20, 600],       
         "clock_color": "#c0c0c0",
@@ -122,9 +122,9 @@
         "date_color":"#e0c0c0"
     },
     {
-        "name":"back14.jpg",   
-        "digital_time": [0, 0],
-        "digital_date": [0, 10],       
+        "name":"back14b.jpg",   
+        "digital_time": [600, 0],
+        "digital_date": [0, 600],       
         "clock_color": "#006800",
         "month_color": "#00c800",
         "day_of_week_color": "#00c800",
