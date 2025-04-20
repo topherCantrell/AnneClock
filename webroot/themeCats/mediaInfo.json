@@ -8,7 +8,7 @@
         "name":"back01.jpg",   
         "digital_time": [450, 20],
         "digital_date": [670, 600],       
-        "clock_color": "#a5c5d9",
+        "clock_color": "#000000",
         "month_color": "#a5c5d9",
         "day_of_week_color": "#a5c5d9",
         "date_color":"#a5c5d9"
