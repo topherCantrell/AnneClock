@@ -160,7 +160,7 @@
     {
         "name":"back18.jpg",   
         "digital_time": [650, 20],
-        "digital_date": [670, 600],       
+        "digital_date": [660, 600],       
         "clock_color": "#101010",
         "month_color": "#101010",
         "day_of_week_color": "#101010",
