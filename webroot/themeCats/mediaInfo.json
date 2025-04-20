@@ -52,7 +52,7 @@
     {
         "name":"back06.jpg",   
         "digital_time": [650, 630],
-        "digital_date": [-20, 650],       
+        "digital_date": [0, 645],       
         "clock_color": "#ff85c2",
         "month_color": "#ff85c2",
         "day_of_week_color": "#ff85c2",
@@ -97,7 +97,7 @@
     {
         "name":"back11.jpg",   
         "digital_time": [20, 630],
-        "digital_date": [670, 650],       
+        "digital_date": [670, 645],       
         "clock_color": "#000038",
         "month_color": "#000038",
         "day_of_week_color": "#000038",
@@ -151,7 +151,7 @@
     {
         "name":"back17.jpg",   
         "digital_time": [20, 20],
-        "digital_date": [670, 650],       
+        "digital_date": [670, 645],       
         "clock_color": "#1f3b4d",
         "month_color": "#1f3b4d",
         "day_of_week_color": "#1f3b4d",
